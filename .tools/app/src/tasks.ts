@@ -4,9 +4,9 @@ import * as version from "./utils/tools/version";
 import { config } from "./main";
 
 export const tasks = () => {
-  const { isGitHook } = config;
-
-  console.log(config);
+  const {
+    app: { isGitHook },
+  } = config;
 
   // All actions only ran by the git hook
   if (isGitHook) {

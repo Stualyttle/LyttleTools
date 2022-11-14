@@ -27,7 +27,10 @@ export const check = (): Versions => {
   }
 
   try {
-    const currentVersion = fs.readFileSync(config.path + "version.txt", "utf8");
+    const currentVersion = fs.readFileSync(
+      config.app.path + "version.txt",
+      "utf8"
+    );
     fs.writeFileSync("./version.txt", currentVersion + "\n");
   } catch (e) {
     fs.writeFileSync("./version.txt", "0.0.0.0: ");

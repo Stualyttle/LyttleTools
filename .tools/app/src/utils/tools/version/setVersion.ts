@@ -83,7 +83,7 @@ export const set = (versions: Versions | null = null) => {
     updateVersion(lastVersion, newVersion);
 
     if (
-      config.isGitHook &&
+      config.app.isGitHook &&
       lastMajor === myMajor &&
       lastMinor === myMinor &&
       lastPatch === myPatch &&
