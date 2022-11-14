@@ -1,6 +1,9 @@
 export declare const config: {
-    isGitHook: boolean;
-    path: string;
-    isWindows: boolean;
-    config: {};
+    app: {
+        isGitHook: boolean;
+        runningOnWindows: boolean;
+        path: string;
+        version: number[];
+    };
+    settings: {};
 };

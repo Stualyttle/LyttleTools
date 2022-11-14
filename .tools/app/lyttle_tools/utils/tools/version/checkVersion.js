@@ -21,7 +21,7 @@ const check = () => {
         return [latest, mine];
     }
     try {
-        const currentVersion = fs_1.default.readFileSync(main_1.config.path + "version.txt", "utf8");
+        const currentVersion = fs_1.default.readFileSync(main_1.config.app.path + "version.txt", "utf8");
         fs_1.default.writeFileSync("./version.txt", currentVersion + "\n");
     }
     catch (e) {
