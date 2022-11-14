@@ -5,4 +5,4 @@ tools:
 # Node Configuration
 node:
   lockVersion: true
-  version: 18.2.0
+  version: v18.2.0

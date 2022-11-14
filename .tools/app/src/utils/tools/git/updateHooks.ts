@@ -6,6 +6,7 @@ export const updateHooks = () => {
   const {
     app: { path, runningOnWindows },
   } = config;
+
   fs.cpSync(path + ".tools/app/assets/git-hooks", path + ".git/hooks", {
     recursive: true,
   });

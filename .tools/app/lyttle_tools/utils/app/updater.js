@@ -47,7 +47,7 @@ const update = () => {
     else if (cloudVersion[0] < appVersion[0] ||
         cloudVersion[1] < appVersion[1] ||
         cloudVersion[2] < appVersion[2]) {
-        (0, log_1.log)("warn", "You are using a experimental or newer version than latest! Report any bugs you found!");
+        (0, log_1.log)("warn", "You are using a experimental or newer version than the latest release! Please report any bugs you found!");
     }
 };
 exports.update = update;

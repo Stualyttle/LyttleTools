@@ -8,7 +8,7 @@ const getYamlSettings = (c) => {
     {
       node: {
         lockVersion: c.node.lockVersion || false,
-        version: c.node.version || "18.2.0",
+        version: c.node.version || "v18.2.0",
       },
     },
   ];

@@ -26,19 +26,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.tasks = void 0;
 const git = __importStar(require("./utils/tools/git"));
 const version = __importStar(require("./utils/tools/version"));
+const node = __importStar(require("./utils/tools/node"));
 const main_1 = require("./main");
-const tasks = () => {
+const tasks = async () => {
     const { app: { isGitHook }, } = main_1.config;
     if (isGitHook) {
         version.pull();
     }
     if (!isGitHook) {
         git.updateHooks();
+        node.lock();
+        node.breaking();
     }
     const checkRes = version.check();
     const changed = version.set(checkRes);
     if (changed)
-        throw new Error("Version changed, try again!");
+        process.exit(1);
 };
 exports.tasks = tasks;
 //# sourceMappingURL=tasks.js.map

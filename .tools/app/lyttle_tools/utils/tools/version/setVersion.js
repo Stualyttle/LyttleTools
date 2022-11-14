@@ -6,9 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.set = void 0;
 const fs_1 = __importDefault(require("fs"));
 const main_1 = require("../../../main");
+const log_1 = require("../../log");
 const updateVersion = (lastVersion, newVersion) => {
     fs_1.default.writeFileSync("./version.txt", newVersion);
-    console.log("Updated from", "\x1b[31m" + lastVersion.join("."), "\x1b[0m" + "to", "\x1b[32m" + newVersion.split(":")[0] + "\x1b[0m" + "!");
+    (0, log_1.log)("info", "Version.txt has been updated from " +
+        "\x1b[31m" +
+        lastVersion.join(".") +
+        "\x1b[0m" +
+        " to " +
+        "\x1b[32m" +
+        newVersion.split(":")[0] +
+        "\x1b[0m" +
+        "!");
 };
 const getVersionNumbers = () => {
     const today = new Date();
@@ -24,7 +33,8 @@ const getVersionNumbers = () => {
 const resetVersion = (lastVersion, { year, week, day }) => {
     const newVersion = `${year}.${week}.${day}.1: `;
     updateVersion(lastVersion, newVersion);
-    throw new Error("Invalid version, try again!");
+    (0, log_1.log)("error", "Your version was incorrect, copy it again from version.txt");
+    process.exit(1);
 };
 const set = (versions = null) => {
     const { year, week, day } = getVersionNumbers();
@@ -36,21 +46,25 @@ const set = (versions = null) => {
         const myRevision = lastMajor === myMajor && lastMinor === myMinor && lastPatch === myPatch
             ? lastRevision + 1
             : 1;
+        const versionChanged = !(year === myMajor &&
+            week === myMinor &&
+            day === myPatch &&
+            myVersion[3] === myRevision);
         if (year !== myMajor || week !== myMinor || day !== myPatch) {
             resetVersion(versions[0], { year, week, day });
         }
         const newVersion = `${myMajor}.${myMinor}.${myPatch}.${myRevision}: `;
-        updateVersion(lastVersion, newVersion);
+        if (versionChanged)
+            updateVersion(lastVersion, newVersion);
         if (main_1.config.app.isGitHook &&
             lastMajor === myMajor &&
             lastMinor === myMinor &&
             lastPatch === myPatch &&
-            lastVersion[3] + 1 !== myVersion[3])
-            throw new Error("Invalid version, try again!");
-        return !(year === myMajor &&
-            week === myMinor &&
-            day === myPatch &&
-            myVersion[3] === myRevision);
+            lastVersion[3] + 1 !== myVersion[3]) {
+            (0, log_1.log)("error", "Your version was incorrect, copy it again from version.txt");
+            process.exit(1);
+        }
+        return versionChanged;
     }
     resetVersion([0, 0, 0, 0], { year, week, day });
     return true;

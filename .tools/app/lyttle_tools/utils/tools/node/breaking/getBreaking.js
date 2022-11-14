@@ -23,34 +23,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setYamlConfig = void 0;
+exports.getBreaking = void 0;
 const fs = __importStar(require("fs"));
-const getYamlSettings = (c) => {
-    return [
-        "# Lyttle Tools Configuration",
-        { tools: { autoUpdate: c.tools.autoUpdate || true } },
-        "# Node Configuration",
-        {
-            node: {
-                lockVersion: c.node.lockVersion || false,
-                version: c.node.version || "v18.2.0",
-            },
-        },
-    ];
+const main_1 = require("../../../../main");
+const getBreaking = () => {
+    const path = main_1.config.app.path;
+    let latest = null;
+    let mine = null;
+    try {
+        latest = fs.readFileSync(path + ".tools/config/lastBreakingChange.txt", "utf8");
+        mine = fs.readFileSync(path + "node_modules/lastBreakingChange.txt", "utf8");
+    }
+    catch (e) { }
+    return [latest, mine];
 };
-const setYamlConfig = (config, path) => {
-    const YAMLString = getYamlSettings(config)
-        .map((setting) => {
-        if (typeof setting === "string") {
-            return setting;
-        }
-        const settingGroup = Object.keys(setting)[0];
-        return `${settingGroup}:\n  ${Object.entries(setting[settingGroup])
-            .map((s) => s.join(": "))
-            .join("\n  ")}\n`;
-    })
-        .join("\n");
-    fs.writeFileSync(`${path}.tools/config/config.yaml`, YAMLString, "utf8");
-};
-exports.setYamlConfig = setYamlConfig;
-//# sourceMappingURL=setYamlConfig.js.map
+exports.getBreaking = getBreaking;
+//# sourceMappingURL=getBreaking.js.map

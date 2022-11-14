@@ -68,7 +68,7 @@ export const update = () => {
   ) {
     log(
       "warn",
-      "You are using a experimental or newer version than latest! Report any bugs you found!"
+      "You are using a experimental or newer version than the latest release! Please report any bugs you found!"
     );
   }
 };

@@ -1,1 +1,1 @@
-export declare const tasks: () => void;
+export declare const tasks: () => Promise<void>;
