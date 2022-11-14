@@ -1,0 +1,8 @@
+# Lyttle Tools Configuration
+tools:
+  autoUpdate: true
+
+# Node Configuration
+node:
+  lockVersion: true
+  version: 18.2.0

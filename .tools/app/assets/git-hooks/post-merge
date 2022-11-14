@@ -1,0 +1,3 @@
+#!/bin/bash
+cd "$GIT_PREFIX" || echo "Error: Could not change directory to gitPrefix"
+GIT_HOOKS=True node ./.tools/app/lyttle_tools/main.js

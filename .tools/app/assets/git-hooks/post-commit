@@ -1,0 +1,3 @@
+#!/bin/bash
+cd "$GIT_PREFIX"
+GIT_HOOKS=True node ./.tools/app/lyttle_tools/main.js

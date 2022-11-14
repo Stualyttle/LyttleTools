@@ -1,0 +1,17 @@
+{
+  "name": "lyttle_tools",
+  "version": "2.0.0",
+  "description": "",
+  "main": "lyttle_tools/main.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.11.9",
+    "typescript": "^4.8.4"
+  }
+}
