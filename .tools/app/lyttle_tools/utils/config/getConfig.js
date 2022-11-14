@@ -26,25 +26,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getConfig = void 0;
 const getYamlConfig_1 = require("./yaml/getYamlConfig");
 const os = __importStar(require("os"));
-const fs = __importStar(require("fs"));
 const getConfig = () => {
     const isGitHook = !!process.env.GIT_HOOKS;
     const path = "./";
-    const settings = (0, getYamlConfig_1.getYamlConfig)(path);
-    const runningOnWindows = os.platform() === "win32";
-    const version = (fs.readFileSync(path + ".tools/app/version.ignore", "utf8")?.toString() ||
-        "0.0.0")
-        .split(".")
-        .map((v) => parseInt(v));
-    const app = {
-        isGitHook,
-        runningOnWindows,
-        path,
-        version,
-    };
+    const config = (0, getYamlConfig_1.getYamlConfig)(path);
+    const isWindows = os.platform() === "win32";
     return {
-        app,
-        settings,
+        isGitHook,
+        path,
+        isWindows,
+        config,
     };
 };
 exports.getConfig = getConfig;

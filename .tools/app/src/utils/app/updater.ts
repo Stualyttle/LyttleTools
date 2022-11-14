@@ -2,13 +2,14 @@ import { config } from "../../main";
 import { runCommand } from "../runCommand";
 import { log } from "../log";
 import fs from "fs";
+import { setYamlConfig } from "../config/yaml/setYamlConfig";
 
 export const update = () => {
   // @ts-ignore
   if (!config.settings?.tools?.autoUpdate) return;
 
   const [rawCloudVersion] = runCommand(
-    "curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/main/versions/latest.txt"
+    "curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/.tools/app/latest.ignore"
   );
 
   const cloudVersion = rawCloudVersion
@@ -54,7 +55,12 @@ export const update = () => {
       if (!config.app.runningOnWindows)
         runCommand(`cd "${config.app.path}" && chmod ug+x ./.git/hooks/*`);
     }
-    log("info", `Update successful.`);
+
+    log("info", `Download successful. Bringing back your settings...`);
+
+    setYamlConfig(config.settings, config.app.path);
+
+    log("info", `Update successful, have fun developing!`);
   } else if (
     cloudVersion[0] < appVersion[0] ||
     cloudVersion[1] < appVersion[1] ||

@@ -8,10 +8,11 @@ const main_1 = require("../../main");
 const runCommand_1 = require("../runCommand");
 const log_1 = require("../log");
 const fs_1 = __importDefault(require("fs"));
+const setYamlConfig_1 = require("../config/yaml/setYamlConfig");
 const update = () => {
     if (!main_1.config.settings?.tools?.autoUpdate)
         return;
-    const [rawCloudVersion] = (0, runCommand_1.runCommand)("curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/main/versions/latest.txt");
+    const [rawCloudVersion] = (0, runCommand_1.runCommand)("curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/.tools/app/latest.ignore");
     const cloudVersion = rawCloudVersion
         .toString()
         .split(".")
@@ -39,7 +40,9 @@ const update = () => {
             if (!main_1.config.app.runningOnWindows)
                 (0, runCommand_1.runCommand)(`cd "${main_1.config.app.path}" && chmod ug+x ./.git/hooks/*`);
         }
-        (0, log_1.log)("info", `Update successful.`);
+        (0, log_1.log)("info", `Download successful. Bringing back your settings...`);
+        (0, setYamlConfig_1.setYamlConfig)(main_1.config.settings, main_1.config.app.path);
+        (0, log_1.log)("info", `Update successful, have fun developing!`);
     }
     else if (cloudVersion[0] < appVersion[0] ||
         cloudVersion[1] < appVersion[1] ||

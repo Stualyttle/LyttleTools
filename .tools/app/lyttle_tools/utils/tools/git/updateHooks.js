@@ -8,11 +8,11 @@ const fs_1 = __importDefault(require("fs"));
 const main_1 = require("../../../main");
 const runCommand_1 = require("../../runCommand");
 const updateHooks = () => {
-    const { app: { path, runningOnWindows }, } = main_1.config;
+    const { path, isWindows } = main_1.config;
     fs_1.default.cpSync(path + ".tools/app/assets/git-hooks", path + ".git/hooks", {
         recursive: true,
     });
-    if (!runningOnWindows)
+    if (!isWindows)
         (0, runCommand_1.runCommand)(`cd "${path}" && chmod ug+x ./.git/hooks/*`);
 };
 exports.updateHooks = updateHooks;
