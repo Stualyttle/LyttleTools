@@ -1,11 +1,11 @@
 {
-  "name": "lyttle_tools",
+  "name": "tester",
   "version": "2.0.0",
   "description": "",
   "main": "lyttle_tools/main.js",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc -w"
+    "start": "npm -s run tools && echo success!",
+    "tools": "node ./.tools/app/lyttle_tools/main.js"
   },
   "keywords": [],
   "author": "",
