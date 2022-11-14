@@ -2,9 +2,10 @@ import { runCommand } from "../../runCommand";
 import fs from "fs";
 import { config } from "../../../main";
 
-type version = [number, number, number, number];
+export type Version = [number, number, number, number];
+export type Versions = [Version, Version];
 
-export const check = (): [version, version] | null => {
+export const check = (): Versions => {
   // const version = runCommand("ls -a");
   const _myVersion = runCommand(
     'git diff HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix version.txt | grep "^+"'
@@ -25,7 +26,11 @@ export const check = (): [version, version] | null => {
     return [latest, mine];
   }
 
-  const currentVersion = fs.readFileSync(config.path + "version.txt", "utf8");
-  fs.writeFileSync("./version.txt", currentVersion + "\n");
+  try {
+    const currentVersion = fs.readFileSync(config.path + "version.txt", "utf8");
+    fs.writeFileSync("./version.txt", currentVersion + "\n");
+  } catch (e) {
+    fs.writeFileSync("./version.txt", "0.0.0.0: ");
+  }
   return check();
 };

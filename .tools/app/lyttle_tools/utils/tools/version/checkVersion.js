@@ -20,8 +20,13 @@ const check = () => {
         const mine = myVersion.split(".").map((v) => parseInt(v));
         return [latest, mine];
     }
-    const currentVersion = fs_1.default.readFileSync(main_1.config.path + "version.txt", "utf8");
-    fs_1.default.writeFileSync("./version.txt", currentVersion + "\n");
+    try {
+        const currentVersion = fs_1.default.readFileSync(main_1.config.path + "version.txt", "utf8");
+        fs_1.default.writeFileSync("./version.txt", currentVersion + "\n");
+    }
+    catch (e) {
+        fs_1.default.writeFileSync("./version.txt", "0.0.0.0: ");
+    }
     return (0, exports.check)();
 };
 exports.check = check;

@@ -8,8 +8,8 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2021",
     "sourceMap": true,
-    "outDir": "./lyttle_tools",
-    "baseUrl": "./src",
+    "outDir": "./.tools/app/lyttle_tools",
+    "baseUrl": "./.tools/app/src",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -20,9 +20,6 @@
     "esModuleInterop": true
   },
   "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "content"
+    "./.tools/app/src/**/*"
   ]
 }

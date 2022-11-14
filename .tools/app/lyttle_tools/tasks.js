@@ -32,17 +32,14 @@ const tasks = () => {
     console.log(main_1.config);
     if (isGitHook) {
         version.pull();
-        const checkRes = version.check();
-        console.log(checkRes);
-        if (checkRes) {
-            const [my, set] = version.set(checkRes);
-            if (my !== set)
-                console.log("Aah!");
-        }
     }
     if (!isGitHook) {
         git.updateHooks();
     }
+    const checkRes = version.check();
+    const changed = version.set(checkRes);
+    if (changed)
+        throw new Error("Version changed, try again!");
 };
 exports.tasks = tasks;
 //# sourceMappingURL=tasks.js.map

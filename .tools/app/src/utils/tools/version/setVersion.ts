@@ -1,5 +1,6 @@
 import fs from "fs";
 import { config } from "../../../main";
+import { Version, Versions } from "./checkVersion";
 
 const updateVersion = (lastVersion, newVersion) => {
   // Change version in saved file
@@ -14,15 +15,13 @@ const updateVersion = (lastVersion, newVersion) => {
   );
 };
 
-export const set = ([lastVersion, myVersion]) => {
-  const [lastMajor, lastMinor, lastPatch, lastRevision] = lastVersion;
-  const [myMajor, myMinor, myPatch] = myVersion;
+export interface VersionOptions {
+  year: number;
+  week: number;
+  day: number;
+}
 
-  const myRevision =
-    lastMajor === myMajor && lastMinor === myMinor && lastPatch === myPatch
-      ? lastRevision + 1
-      : 1;
-
+const getVersionNumbers = (): VersionOptions => {
   // Check version: Get day
   const today = new Date();
 
@@ -48,28 +47,57 @@ export const set = ([lastVersion, myVersion]) => {
   const days = [7, 1, 2, 3, 4, 5, 6];
   const day = String(days[today.getDay()]);
 
-  if (
-    parseInt(year) !== myMajor ||
-    parseInt(week) !== myMinor ||
-    parseInt(day) !== myPatch
-  ) {
-    // Setup version
-    const newVersion = `${year}.${week}.${day}.1: `;
+  return { year: parseInt(year), week: parseInt(week), day: parseInt(day) };
+};
+
+const resetVersion = (
+  lastVersion: Version,
+  { year, week, day }: VersionOptions
+) => {
+  const newVersion = `${year}.${week}.${day}.1: `;
+  updateVersion(lastVersion, newVersion);
+  throw new Error("Invalid version, try again!");
+};
+
+export const set = (versions: Versions | null = null) => {
+  const { year, week, day } = getVersionNumbers();
+
+  if (versions) {
+    const lastVersion = versions[0];
+    const myVersion = versions[1];
+    const [lastMajor, lastMinor, lastPatch, lastRevision] = lastVersion;
+    const [myMajor, myMinor, myPatch] = myVersion;
+
+    const myRevision =
+      lastMajor === myMajor && lastMinor === myMinor && lastPatch === myPatch
+        ? lastRevision + 1
+        : 1;
+
+    if (year !== myMajor || week !== myMinor || day !== myPatch) {
+      // Setup version
+      resetVersion(versions[0], { year, week, day });
+    }
+
+    // Update version
+    const newVersion = `${myMajor}.${myMinor}.${myPatch}.${myRevision}: `;
     updateVersion(lastVersion, newVersion);
-    throw new Error("Invalid version, try again!");
+
+    if (
+      config.isGitHook &&
+      lastMajor === myMajor &&
+      lastMinor === myMinor &&
+      lastPatch === myPatch &&
+      lastVersion[3] + 1 !== myVersion[3]
+    )
+      throw new Error("Invalid version, try again!");
+    return !(
+      year === myMajor &&
+      week === myMinor &&
+      day === myPatch &&
+      myVersion[3] === myRevision
+    );
   }
 
-  // Update version
-  const newVersion = `${myMajor}.${myMinor}.${myPatch}.${myRevision}: `;
-  updateVersion(lastVersion, newVersion);
-
-  if (
-    config.isGitHook &&
-    lastMajor === myMajor &&
-    lastMinor === myMinor &&
-    lastPatch === myPatch &&
-    lastVersion[3] + 1 !== myVersion[3]
-  )
-    throw new Error("Invalid version, try again!");
-  return [myVersion, [myMajor, myMinor, myPatch, myRevision]];
+  resetVersion([0, 0, 0, 0], { year, week, day });
+  return true;
 };

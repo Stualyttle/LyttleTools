@@ -8,14 +8,9 @@ export const tasks = () => {
 
   console.log(config);
 
+  // All actions only ran by the git hook
   if (isGitHook) {
     version.pull();
-    const checkRes = version.check();
-    console.log(checkRes);
-    if (checkRes) {
-      const [my, set] = version.set(checkRes);
-      if (my !== set) console.log("Aah!");
-    }
   }
 
   // All actions when not ran by the git git-hooks.
@@ -24,4 +19,7 @@ export const tasks = () => {
   }
 
   // All other actions.
+  const checkRes = version.check();
+  const changed = version.set(checkRes);
+  if (changed) throw new Error("Version changed, try again!");
 };
