@@ -41,7 +41,7 @@ const set = (versions = null) => {
         }
         const newVersion = `${myMajor}.${myMinor}.${myPatch}.${myRevision}: `;
         updateVersion(lastVersion, newVersion);
-        if (main_1.config.isGitHook &&
+        if (main_1.config.app.isGitHook &&
             lastMajor === myMajor &&
             lastMinor === myMinor &&
             lastPatch === myPatch &&

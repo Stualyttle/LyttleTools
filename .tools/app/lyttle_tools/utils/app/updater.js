@@ -7,12 +7,12 @@ exports.update = void 0;
 const main_1 = require("../../main");
 const runCommand_1 = require("../runCommand");
 const log_1 = require("../log");
-const fs_1 = __importDefault(require("fs"));
 const setYamlConfig_1 = require("../config/yaml/setYamlConfig");
+const fs_1 = __importDefault(require("fs"));
 const update = () => {
     if (!main_1.config.settings?.tools?.autoUpdate)
         return;
-    const [rawCloudVersion] = (0, runCommand_1.runCommand)("curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/.tools/app/latest.ignore");
+    const rawCloudVersion = (0, runCommand_1.runCommand)("curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/main/.tools/app/version.ignore");
     const cloudVersion = rawCloudVersion
         .toString()
         .split(".")

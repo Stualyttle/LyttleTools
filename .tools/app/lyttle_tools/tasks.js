@@ -28,8 +28,7 @@ const git = __importStar(require("./utils/tools/git"));
 const version = __importStar(require("./utils/tools/version"));
 const main_1 = require("./main");
 const tasks = () => {
-    const { isGitHook } = main_1.config;
-    console.log(main_1.config);
+    const { app: { isGitHook }, } = main_1.config;
     if (isGitHook) {
         version.pull();
     }

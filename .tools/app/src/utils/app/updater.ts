@@ -1,15 +1,15 @@
 import { config } from "../../main";
 import { runCommand } from "../runCommand";
 import { log } from "../log";
-import fs from "fs";
 import { setYamlConfig } from "../config/yaml/setYamlConfig";
+import fs from "fs";
 
 export const update = () => {
   // @ts-ignore
   if (!config.settings?.tools?.autoUpdate) return;
 
-  const [rawCloudVersion] = runCommand(
-    "curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/.tools/app/latest.ignore"
+  const rawCloudVersion = runCommand(
+    "curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/main/.tools/app/version.ignore"
   );
 
   const cloudVersion = rawCloudVersion
