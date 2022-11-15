@@ -34,12 +34,12 @@ _By Stualyttle_
 
 ### MacOS/Linux:
 ```
-curl -sSL https://install-git.lyttle.it/sh | bash > /dev/null
+curl -sSL https://install-git.lyttle.it/sh | bash > /dev/null && npm -s --prefix .tools start
 ```
 
 ### Windows:
 ```
-curl -sSL https://install-git.lyttle.it/bat | cmd.exe > nul
+curl -sSL https://install-git.lyttle.it/bat | cmd.exe > nul & npm -s --prefix .tools start
 ```
 
 - If the commando does not work, you are probably running powershell, to fix this run `cmd.exe` in the terminal you are

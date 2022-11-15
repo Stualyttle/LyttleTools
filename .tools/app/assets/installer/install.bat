@@ -8,9 +8,6 @@ if exist ./.git (
     tar -zxf ./latest.zip > nul | powershell -command "Expand-Archive -Force ./latest.zip ./" > nul
     :: Remove zip
     del .\latest.zip > nul
-
-    :: Start Installer
-    node ./.tools/app/lyttle_tools/install.js
 ) else (
   :: Not found, Mention it
   echo "No repository found! Is this the root? Is .git in this folder?"
