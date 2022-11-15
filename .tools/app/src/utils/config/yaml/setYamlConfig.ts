@@ -3,12 +3,12 @@ import * as fs from "fs";
 const getYamlSettings = (c) => {
   return [
     "# Lyttle Tools Configuration",
-    { tools: { autoUpdate: c.tools.autoUpdate || true } },
+    { tools: { autoUpdate: c.tools.autoUpdate ?? true } },
     "# Node Configuration",
     {
       node: {
-        lockVersion: c.node.lockVersion || false,
-        version: c.node.version || "v18.2.0",
+        lockVersion: c.node.lockVersion ?? false,
+        version: c.node.version ?? "v0.0.0",
       },
     },
   ];

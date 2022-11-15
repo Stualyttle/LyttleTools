@@ -1,0 +1,7 @@
+{
+  "info": "This file is used to install the app.",
+  "scripts": {
+    "start": "npm -s run install",
+    "install": "cd ../ && node ./.tools/app/lyttle_tools/install.js"
+  }
+}

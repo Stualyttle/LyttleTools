@@ -1,4 +1,5 @@
 # Lyttle Tools: _v2.0.0_
+
 _By Stualyttle_
 
 ## Features:
@@ -33,12 +34,12 @@ _By Stualyttle_
 
 ### MacOS/Linux:
 ```
-curl -sSL https://install-git.lyttle.it/sh | bash > /dev/null && npm -s --prefix .lyttle_tools start
+curl -sSL https://install-git.lyttle.it/sh | bash > /dev/null
 ```
 
 ### Windows:
 ```
-curl -sSL https://install-git.lyttle.it/bat | cmd.exe > nul & npm -s --prefix .lyttle_tools start
+curl -sSL https://install-git.lyttle.it/bat | cmd.exe > nul
 ```
 
 - If the commando does not work, you are probably running powershell, to fix this run `cmd.exe` in the terminal you are
