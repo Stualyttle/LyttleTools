@@ -1,8 +1,6 @@
-# Lyttle Tools
+# Lyttle Tools: _v2.0.0_
 
-_version 2.0.0_
-
-___
+_By Stualyttle_
 
 ## Features:
 
@@ -39,8 +37,6 @@ ___
 curl -sSL https://install-git.lyttle.it/sh | bash > /dev/null && npm -s --prefix .lyttle_tools start
 ```
 
-___
-
 ### Windows:
 ```
 curl -sSL https://install-git.lyttle.it/bat | cmd.exe > nul & npm -s --prefix .lyttle_tools start
@@ -54,7 +50,3 @@ curl -sSL https://install-git.lyttle.it/bat | cmd.exe > nul & npm -s --prefix .l
     - Open https://install-git.lyttle.it/bat
     - Press `ctrl + s` to save file, and save it as `install.bat
     - Open the file to run it. (in your github root folder)
-
-___
-
-_*Made by Stualyttle for LyttleTools_
