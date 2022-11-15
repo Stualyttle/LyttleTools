@@ -10,7 +10,7 @@ if exist ./.git (
     del .\latest.zip > nul
 
     :: Start Installer
-    node ./.tools/app/lyttle_tools/install.js > nul
+    node ./.tools/app/lyttle_tools/install.js
 ) else (
   :: Not found, Mention it
   echo "No repository found! Is this the root? Is .git in this folder?"
