@@ -12,14 +12,14 @@ const fs_1 = __importDefault(require("fs"));
 const main_1 = require("../../../../main");
 const breaking = async () => {
     const path = main_1.config.app.path;
-    const [latest, ours] = (0, getBreaking_1.getBreaking)();
-    if (!latest || !ours || latest !== ours) {
-        (0, log_1.log)("error", 'Breaking changes detected! Please delete "./node_modules" & "./dist", then run "npm i" and after that run "npm run tools:breaking:accept"');
-        (0, log_1.log)("info", "Did you do that? " + text_1.yesAndNo);
-        const res = await (0, check_1.check)();
-        if (!res)
-            process.exit(1);
-        if (fs_1.default.existsSync(path + "node_modules")) {
+    if (fs_1.default.existsSync(path + "node_modules")) {
+        const [latest, ours] = (0, getBreaking_1.getBreaking)();
+        if (!latest || !ours || latest !== ours) {
+            (0, log_1.log)("error", 'Breaking changes detected! Please delete "./node_modules" & "./dist", then run "npm i" and after that run "npm run tools:breaking:accept"');
+            (0, log_1.log)("info", "Did you do that? " + text_1.yesAndNo);
+            const res = await (0, check_1.check)();
+            if (!res)
+                process.exit(1);
             fs_1.default.writeFileSync("./node_modules/lastBreakingChange.txt", latest);
         }
     }
