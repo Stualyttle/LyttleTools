@@ -1,8 +1,10 @@
 # Lyttle Tools Configuration
 tools:
   autoUpdate: false
+  debug: false
 
 # Node Configuration
 node:
+  breakVersion: false
   lockVersion: false
   version: v0.0.0

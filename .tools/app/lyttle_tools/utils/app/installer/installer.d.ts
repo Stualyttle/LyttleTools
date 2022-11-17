@@ -1,1 +1,2 @@
-export declare const installer: (config: any) => Promise<never>;
+import { Config } from "../../config/getConfig";
+export declare const installer: (config: Config) => Promise<never>;

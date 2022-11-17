@@ -123,6 +123,8 @@ export const set = (versions: Versions | null = null) => {
       );
       process.exit(1);
     }
+
+    if (versionChanged) process.exit(1);
     return versionChanged;
   }
 

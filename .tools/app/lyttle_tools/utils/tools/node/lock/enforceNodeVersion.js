@@ -5,6 +5,8 @@ const getNodeVersion_1 = require("./getNodeVersion");
 const main_1 = require("../../../../main");
 const log_1 = require("../../../log");
 const lock = () => {
+    if (main_1.config.app.isGitHook)
+        return;
     if (!main_1.config.settings.node.lockVersion)
         return;
     const setVersion = main_1.config.settings.node.version;

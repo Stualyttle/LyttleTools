@@ -4,6 +4,7 @@ import { config } from "../../../../main";
 import { log } from "../../../log";
 
 export const lock = () => {
+  if (config.app.isGitHook) return;
   // @ts-ignore
   if (!config.settings.node.lockVersion) return;
 

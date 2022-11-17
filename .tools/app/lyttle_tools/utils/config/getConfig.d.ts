@@ -1,4 +1,5 @@
-export declare const getConfig: () => {
+import { ConfigSettings } from "./yaml/setYamlConfig";
+export interface Config {
     app: {
         version: number[];
         debug: boolean;
@@ -7,5 +8,6 @@ export declare const getConfig: () => {
         isGitHook: boolean;
         gitMessage: string;
     };
-    settings: {};
-};
+    settings: ConfigSettings;
+}
+export declare const getConfig: () => Config;

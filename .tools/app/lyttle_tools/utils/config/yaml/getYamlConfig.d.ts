@@ -1,1 +1,2 @@
-export declare const getYamlConfig: (path: any) => {};
+import { ConfigSettings } from "./setYamlConfig";
+export declare const getYamlConfig: (path: string) => ConfigSettings;

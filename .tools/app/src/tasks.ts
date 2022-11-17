@@ -2,27 +2,19 @@ import * as git from "./utils/tools/git";
 import * as version from "./utils/tools/version";
 import * as node from "./utils/tools/node";
 
-import { config } from "./main";
-
 export const tasks = async () => {
-  const {
-    app: { isGitHook },
-  } = config;
+  // Pull the latest commits.
+  version.pull();
 
-  // All actions only ran by the git hook
-  if (isGitHook) {
-    version.pull();
-  }
+  // Update the git hooks.
+  git.updateHooks();
 
-  // All actions when not ran by the git git-hooks.
-  if (!isGitHook) {
-    git.updateHooks();
-    node.lock();
-    node.breaking();
-  }
+  // Enforce the node version.
+  node.lock();
 
-  // All other actions.
-  const checkRes = version.check();
-  const changed = version.set(checkRes);
-  if (changed) process.exit(1);
+  // Enforce the breaking changes.
+  node.breaking();
+
+  // Enforce the versioning.
+  version.set(version.check());
 };

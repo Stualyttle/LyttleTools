@@ -1,11 +1,11 @@
 import fs from "fs";
-import { setYamlConfig } from "./setYamlConfig";
+import { ConfigSettings, setYamlConfig } from "./setYamlConfig";
 
-export const getYamlConfig = (path) => {
-  // Set initial config object
-  const config = {};
+export const getYamlConfig = (path: string): ConfigSettings => {
+  // Set initial _settings object
+  const _settings = {};
 
-  // Get the config file
+  // Get the _settings file
   const rawConfig = fs.readFileSync(`${path}.tools/config/config.yaml`, "utf8");
 
   // Remove comments
@@ -15,13 +15,13 @@ export const getYamlConfig = (path) => {
     .replaceAll(" ", "")
     .split("\n\n");
 
-  // Set the config
+  // Set the _settings
   rawConfigNoComments.forEach((c) => {
     // Get the option name
     const option = c.split(":")[0].replaceAll("\n", "");
 
     // Create the option object
-    const optionConfig = { [option]: {} };
+    const _optionSetting = { [option]: {} };
 
     // Get the option values
     c.split(":")
@@ -33,16 +33,18 @@ export const getYamlConfig = (path) => {
         // Get the key and value
         const [key, v] = line.split(":");
         // Set the key and value (in right type)
-        optionConfig[option][key] =
+        _optionSetting[option][key] =
           v === "true" ? true : v === "false" ? false : Number(v) || v;
       });
 
-    // Set option in config.
-    config[option] = optionConfig[option];
+    // Set option in _settings.
+    _settings[option] = _optionSetting[option];
   });
 
-  setYamlConfig(config, path);
+  const settings = { ..._settings } as ConfigSettings;
 
-  // Return the config
-  return config;
+  setYamlConfig(settings, path);
+
+  // Return the _settings
+  return settings;
 };

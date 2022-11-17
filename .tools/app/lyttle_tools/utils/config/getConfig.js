@@ -30,7 +30,6 @@ const fs = __importStar(require("fs"));
 const getConfig = () => {
     const isGitHook = !!process.env.GIT_HOOKS;
     const gitMessage = process.env.GIT_MESSAGE ?? null;
-    const debug = !!process.env.DEBUG;
     const path = "./";
     const settings = (0, getYamlConfig_1.getYamlConfig)(path);
     const runningOnWindows = os.platform() === "win32";
@@ -38,6 +37,7 @@ const getConfig = () => {
         "0.0.0")
         .split(".")
         .map((v) => parseInt(v));
+    const debug = !!process.env.DEBUG || settings.tools.debug;
     const app = {
         version,
         debug,

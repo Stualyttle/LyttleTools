@@ -1,11 +1,23 @@
 import { getYamlConfig } from "./yaml/getYamlConfig";
 import * as os from "os";
 import * as fs from "fs";
+import { ConfigSettings } from "./yaml/setYamlConfig";
 
-export const getConfig = () => {
+export interface Config {
+  app: {
+    version: number[];
+    debug: boolean;
+    path: string;
+    runningOnWindows: boolean;
+    isGitHook: boolean;
+    gitMessage: string;
+  };
+  settings: ConfigSettings;
+}
+
+export const getConfig = (): Config => {
   const isGitHook = !!process.env.GIT_HOOKS;
   const gitMessage: string | null = process.env.GIT_MESSAGE ?? null;
-  const debug = !!process.env.DEBUG;
 
   const path = "./";
   // console.log(runCommand(`cd ${path} && ls -a`).toString());
@@ -19,6 +31,8 @@ export const getConfig = () => {
   )
     .split(".")
     .map((v) => parseInt(v));
+
+  const debug = !!process.env.DEBUG || settings.tools.debug;
 
   const app = {
     version,

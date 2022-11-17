@@ -8,6 +8,8 @@ const fs_1 = __importDefault(require("fs"));
 const main_1 = require("../../../main");
 const runCommand_1 = require("../../runCommand");
 const updateHooks = () => {
+    if (main_1.config.app.isGitHook)
+        return;
     const { app: { path, runningOnWindows }, } = main_1.config;
     fs_1.default.cpSync(path + ".tools/app/assets/git-hooks", path + ".git/hooks", {
         recursive: true,

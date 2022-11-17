@@ -3,6 +3,8 @@ import { config } from "../../../main";
 import { runCommand } from "../../runCommand";
 
 export const updateHooks = () => {
+  if (config.app.isGitHook) return;
+
   const {
     app: { path, runningOnWindows },
   } = config;

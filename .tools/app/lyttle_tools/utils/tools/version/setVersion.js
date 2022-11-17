@@ -72,6 +72,8 @@ const set = (versions = null) => {
             (0, log_1.log)("error", "The version you entered in your commit message, does not match our version. Try again!");
             process.exit(1);
         }
+        if (versionChanged)
+            process.exit(1);
         return versionChanged;
     }
     resetVersion([0, 0, 0, 0], { year, week, day });

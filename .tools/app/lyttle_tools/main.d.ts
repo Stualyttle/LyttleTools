@@ -1,11 +1,1 @@
-export declare const config: {
-    app: {
-        version: number[];
-        debug: boolean;
-        path: string;
-        runningOnWindows: boolean;
-        isGitHook: boolean;
-        gitMessage: string;
-    };
-    settings: {};
-};
+export declare const config: import("./utils/config/getConfig").Config;
