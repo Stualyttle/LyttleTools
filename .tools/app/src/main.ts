@@ -3,7 +3,7 @@ import { tasks } from "./tasks";
 import { update } from "./utils/app/updater";
 
 export const config = getConfig();
-console.log("config:", config);
+if (config.app.debug) console.log("config:", config);
 
 update();
 tasks();

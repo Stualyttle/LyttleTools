@@ -4,6 +4,8 @@ import * as fs from "fs";
 
 export const getConfig = () => {
   const isGitHook = !!process.env.GIT_HOOKS;
+  const gitMessage: string | null = process.env.GIT_MESSAGE ?? null;
+  const debug = !!process.env.DEBUG;
 
   const path = "./";
   // console.log(runCommand(`cd ${path} && ls -a`).toString());
@@ -19,10 +21,12 @@ export const getConfig = () => {
     .map((v) => parseInt(v));
 
   const app = {
-    isGitHook,
-    runningOnWindows,
-    path,
     version,
+    debug,
+    path,
+    runningOnWindows,
+    isGitHook,
+    gitMessage,
   };
 
   return {

@@ -97,7 +97,12 @@ export const set = (versions: Versions | null = null) => {
     const newVersion = `${myMajor}.${myMinor}.${myPatch}.${myRevision}: `;
     if (versionChanged) updateVersion(lastVersion, newVersion);
 
+    const versionFile = config.app.gitMessage
+      ? config.app.gitMessage.split(" ")[0] + " "
+      : null;
+
     if (
+      versionFile &&
       config.app.isGitHook &&
       lastMajor === myMajor &&
       lastMinor === myMinor &&
@@ -107,6 +112,14 @@ export const set = (versions: Versions | null = null) => {
       log(
         "error",
         "Your version was incorrect, copy it again from version.txt"
+      );
+      process.exit(1);
+    }
+
+    if (versionFile && newVersion !== versionFile) {
+      log(
+        "error",
+        "The version you entered in your commit message, does not match our version. Try again!"
       );
       process.exit(1);
     }

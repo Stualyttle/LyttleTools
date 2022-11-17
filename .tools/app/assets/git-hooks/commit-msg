@@ -1,0 +1,4 @@
+#!/bin/bash
+GIT_COMMIT_MESSAGE=`head -n1 $1`
+cd "$GIT_PREFIX"
+GIT_HOOKS=True GIT_MESSAGE=$GIT_COMMIT_MESSAGE node ./.tools/app/lyttle_tools/main.js
