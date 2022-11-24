@@ -61,16 +61,18 @@ export const checkBranch = async () => {
   }
 
   if (isFeature && removeThisBranch) {
+    log(
+      "info",
+      `Removing "${branchName.split("\n")[0]}" and switching to main.`
+    );
     const switchedToMain = runCommand(`git checkout main --force`);
     if (switchedToMain) {
       runCommand(`git branch --delete ${branchName}`);
+
+      log("info", `Pulling latest commits from main.`);
       runCommand("git pull");
 
-      log(
-        "info",
-        `Removing "${branchName.split("\n")[0]}" and switching to main.`
-      );
-      const [start] = await ask({ question: "Can we start the app?" });
+      const [start] = await ask({ question: "Done! Can we start the app?" });
 
       if (start) return;
     } else {
