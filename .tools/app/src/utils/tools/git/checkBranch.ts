@@ -61,7 +61,7 @@ export const checkBranch = async () => {
   }
 
   if (isFeature && removeThisBranch) {
-    const switchedToMain = runCommand(`git checkout main`);
+    const switchedToMain = runCommand(`git checkout main --force`);
     if (switchedToMain) {
       runCommand(`git branch --delete ${branchName}`);
 

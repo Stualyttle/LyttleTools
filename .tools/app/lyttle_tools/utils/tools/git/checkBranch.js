@@ -50,7 +50,7 @@ const checkBranch = async () => {
         process.exit(1);
     }
     if (isFeature && removeThisBranch) {
-        const switchedToMain = (0, runCommand_1.runCommand)(`git checkout main`);
+        const switchedToMain = (0, runCommand_1.runCommand)(`git checkout main --force`);
         if (switchedToMain) {
             (0, runCommand_1.runCommand)(`git branch --delete ${branchName}`);
             (0, log_1.log)("info", `Removing "${branchName.split("\n")[0]}" and switching to main.`);
