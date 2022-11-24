@@ -53,6 +53,7 @@ const checkBranch = async () => {
         const switchedToMain = (0, runCommand_1.runCommand)(`git checkout main --force`);
         if (switchedToMain) {
             (0, runCommand_1.runCommand)(`git branch --delete ${branchName}`);
+            (0, runCommand_1.runCommand)("git pull");
             (0, log_1.log)("info", `Removing "${branchName.split("\n")[0]}" and switching to main.`);
             const [start] = await (0, ask_1.ask)({ question: "Can we start the app?" });
             if (start)
