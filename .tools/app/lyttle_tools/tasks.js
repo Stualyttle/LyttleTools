@@ -30,6 +30,7 @@ const node = __importStar(require("./utils/tools/node"));
 const tasks = async () => {
     version.pull();
     git.updateHooks();
+    git.checkBranch();
     node.lock();
     node.breaking();
     version.set(version.check());

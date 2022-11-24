@@ -8,5 +8,9 @@ export interface ConfigSettings {
         lockVersion: boolean;
         version: string;
     };
+    git: {
+        versioning: boolean;
+        onlyFeatureBranches: boolean;
+    };
 }
 export declare const setYamlConfig: (config: any, path: any) => void;

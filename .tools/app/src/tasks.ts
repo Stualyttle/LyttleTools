@@ -8,6 +8,7 @@ export const tasks = async () => {
 
   // Update the git hooks.
   git.updateHooks();
+  git.checkBranch();
 
   // Enforce the node version.
   node.lock();

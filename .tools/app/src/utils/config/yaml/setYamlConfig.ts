@@ -10,9 +10,13 @@ export interface ConfigSettings {
     lockVersion: boolean;
     version: string;
   };
+  git: {
+    versioning: boolean;
+    onlyFeatureBranches: boolean;
+  };
 }
 
-const getYamlSettings = ({ tools, node }) => {
+const getYamlSettings = ({ tools, node, git }) => {
   const valid = (value, type, standard) =>
     typeof value === type ? value : standard;
 
@@ -20,16 +24,23 @@ const getYamlSettings = ({ tools, node }) => {
     "# Lyttle Tools Configuration",
     {
       tools: {
-        autoUpdate: valid(tools.autoUpdate, "boolean", false),
-        debug: valid(tools.debug, "boolean", false),
+        autoUpdate: valid(tools?.autoUpdate, "boolean", false),
+        debug: valid(tools?.debug, "boolean", false),
       },
     },
     "# Node Configuration",
     {
       node: {
-        breakVersion: valid(node.breakVersion, "boolean", false),
-        lockVersion: valid(node.lockVersion, "boolean", false),
-        version: valid(node.version, "string", "v0.0.0"),
+        breakVersion: valid(node?.breakVersion, "boolean", false),
+        lockVersion: valid(node?.lockVersion, "boolean", false),
+        version: valid(node?.version, "string", "v0.0.0"),
+      },
+    },
+    "# Git Configuration",
+    {
+      git: {
+        versioning: valid(git?.versioning, "boolean", false),
+        onlyFeatureBranches: valid(git?.onlyFeatureBranches, "boolean", false),
       },
     },
   ];

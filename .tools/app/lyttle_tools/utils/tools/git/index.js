@@ -15,4 +15,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./updateHooks"), exports);
+__exportStar(require("./checkBranch"), exports);
 //# sourceMappingURL=index.js.map

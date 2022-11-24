@@ -1,10 +1,9 @@
 import { getBreaking } from "./getBreaking";
 import { log } from "../../../log";
-import { check } from "../../../check";
-import { yesAndNo } from "../../../text";
 import fs from "fs";
 import { config } from "../../../../main";
 import { runCommand } from "../../../runCommand";
+import { ask } from "../../../ask";
 
 export const breaking = async () => {
   if (!config.settings.node.breakVersion) return;
@@ -30,15 +29,17 @@ export const breaking = async () => {
   );
 
   // Ask if we can do that
-  log("info", "Can we do that for you? " + yesAndNo);
-  const install = await check();
+  // log("info", "Can we do that for you? " + yesAndNo);
+  const [install] = await ask({ question: "Can we do that for you?" });
   let installed = false;
 
   // If we can do that, do it.
   if (!!install) {
     // Ask what package manager to use.
-    log("info", "NPM (n) or Yarn (y)? (CTRL + C to stop) " + yesAndNo);
-    const yarn = await check();
+    // log("info", "NPM (n) or Yarn (y)? (CTRL + C to stop) " + yesAndNo);
+    const [yarn] = await ask({
+      question: "NPM (n) or Yarn (y)? (CTRL + C to stop)",
+    });
 
     // Remove the node modules.
     log("info", "Removing node modules...");
@@ -59,8 +60,10 @@ export const breaking = async () => {
   }
 
   // Ask if we can start the app?
-  log("info", "Can we start the app? " + yesAndNo);
-  const start = await check();
+  // log("info", "Can we start the app? " + yesAndNo);
+  const [start] = await ask({
+    question: "Can we start the app?",
+  });
 
   // If not, exit.
   if (!start) process.exit(1);
@@ -86,12 +89,15 @@ export const breaking = async () => {
       );
 
       // Ask if we can accept it.
-      log(
-        "info",
-        "Can we start the app and accept it (y) or just start the app, and let you know next time (n)? " +
-          yesAndNo
-      );
-      const save = await check();
+      // log(
+      //   "info",
+      //   "Can we start the app and accept it (y) or just start the app, and let you know next time (n)? " +
+      //     yesAndNo
+      // );
+      const [save] = await ask({
+        question:
+          "Can we start the app and accept it (y) or just start the app, and let you know next time (n)?",
+      });
 
       // If the app can be started the dev wanted to do that.
       // So to not discourage the dev, we will not ask again.

@@ -8,3 +8,8 @@ node:
   breakVersion: false
   lockVersion: false
   version: v0.0.0
+
+# Git Configuration
+git:
+  versioning: false
+  onlyFeatureBranches: false

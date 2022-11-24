@@ -25,22 +25,29 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setYamlConfig = void 0;
 const fs = __importStar(require("fs"));
-const getYamlSettings = ({ tools, node }) => {
+const getYamlSettings = ({ tools, node, git }) => {
     const valid = (value, type, standard) => typeof value === type ? value : standard;
     return [
         "# Lyttle Tools Configuration",
         {
             tools: {
-                autoUpdate: valid(tools.autoUpdate, "boolean", false),
-                debug: valid(tools.debug, "boolean", false),
+                autoUpdate: valid(tools?.autoUpdate, "boolean", false),
+                debug: valid(tools?.debug, "boolean", false),
             },
         },
         "# Node Configuration",
         {
             node: {
-                breakVersion: valid(node.breakVersion, "boolean", false),
-                lockVersion: valid(node.lockVersion, "boolean", false),
-                version: valid(node.version, "string", "v0.0.0"),
+                breakVersion: valid(node?.breakVersion, "boolean", false),
+                lockVersion: valid(node?.lockVersion, "boolean", false),
+                version: valid(node?.version, "string", "v0.0.0"),
+            },
+        },
+        "# Git Configuration",
+        {
+            git: {
+                versioning: valid(git?.versioning, "boolean", false),
+                onlyFeatureBranches: valid(git?.onlyFeatureBranches, "boolean", false),
             },
         },
     ];

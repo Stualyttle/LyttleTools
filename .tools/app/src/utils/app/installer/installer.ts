@@ -1,7 +1,7 @@
 import { runCommand } from "../../runCommand";
 import { setYamlConfig } from "../../config/yaml/setYamlConfig";
 import { welcome } from "./welcome.installer";
-import { ask } from "./ask.installer";
+import { ask } from "../../ask";
 import { Config } from "../../config/getConfig";
 
 export const installer = async (config: Config) => {
@@ -42,21 +42,9 @@ export const installer = async (config: Config) => {
       no: "We will NOT enable auto updates.",
     });
 
-    // const appInPackageMsg = appInPackage
-    //   ? "\x1b[32m" + "✔   " + "\x1b[0m"
-    //   : "\x1b[31m" + "❌   We will NOT touch your package.json" + "\x1b[0m";
-    // const lockNodeMsg = lockNode
-    //   ? "\x1b[32m" +
-    //     "✔   We WILL enable node version locking, and set it to your version! (you can still change this)" +
-    //     "\x1b[0m"
-    //   : "\x1b[31m" + "❌   We will NOT enable node version locking" + "\x1b[0m";
-    // const autoUpdateMsg = autoUpdate
-    //   ? "\x1b[32m" + "✔   We WILL enable auto updates" + "\x1b[0m"
-    //   : "\x1b[31m" + "❌   We will NOT enable auto updates" + "\x1b[0m";
-
     const sureMsg = `${lockNodeMsg}\n${breakingNodeMsg}\n${autoUpdateMsg}`;
 
-    const correct = await ask({
+    const [correct] = await ask({
       question: "❓   Is this correct?",
       extra: sureMsg,
     });

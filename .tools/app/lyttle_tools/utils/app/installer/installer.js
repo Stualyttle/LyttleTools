@@ -4,38 +4,38 @@ exports.installer = void 0;
 const runCommand_1 = require("../../runCommand");
 const setYamlConfig_1 = require("../../config/yaml/setYamlConfig");
 const welcome_installer_1 = require("./welcome.installer");
-const ask_installer_1 = require("./ask.installer");
+const ask_1 = require("../../ask");
 const installer = async (config) => {
     try {
         (0, welcome_installer_1.welcome)();
         const settingQuestions = 3;
-        const [lockNode, lockNodeMsg] = await (0, ask_installer_1.ask)({
+        const [lockNode, lockNodeMsg] = await (0, ask_1.ask)({
             amount: [1, settingQuestions],
             question: "Want to lock the node version for this project?",
             warning: "This needs the package.json to be core correctly!",
             yes: "We WILL enable node version locking, and set it to your version!",
             no: "We will NOT enable node version locking.",
         });
-        const [breakingNode, breakingNodeMsg] = await (0, ask_installer_1.ask)({
+        const [breakingNode, breakingNodeMsg] = await (0, ask_1.ask)({
             amount: [2, settingQuestions],
             question: "Want to enable breaking changes?",
             info: "This will notify your team when their node_modules should be reinstalled?",
             yes: "We WILL enable breaking changes checks and run in in our tools!",
             no: "We will NOT enable breaking changes checks.",
         });
-        const [autoUpdate, autoUpdateMsg] = await (0, ask_installer_1.ask)({
+        const [autoUpdate, autoUpdateMsg] = await (0, ask_1.ask)({
             amount: [3, settingQuestions],
             question: "Do you want to auto install updates?",
             yes: "We WILL enable auto updates!",
             no: "We will NOT enable auto updates.",
         });
         const sureMsg = `${lockNodeMsg}\n${breakingNodeMsg}\n${autoUpdateMsg}`;
-        const correct = await (0, ask_installer_1.ask)({
+        const [correct] = await (0, ask_1.ask)({
             question: "❓   Is this correct?",
             extra: sureMsg,
         });
         if (!correct) {
-            await (0, ask_installer_1.ask)({
+            await (0, ask_1.ask)({
                 info: "Installer has been closed, nothing has been installed (only the .lyttle_tools folder has been downloaded)",
             });
             return process.exit(1);
