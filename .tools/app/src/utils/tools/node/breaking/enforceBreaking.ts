@@ -43,7 +43,7 @@ export const breaking = async () => {
 
     // Remove the node modules.
     log("info", "Removing node modules...");
-    fs.rmSync(path + "./node_modules", { recursive: true });
+    fs.rmSync(path + "node_modules", { recursive: true });
 
     // Install the node modules.
     log("info", "Installing node modules...");
@@ -53,7 +53,7 @@ export const breaking = async () => {
     log("info", "Reinstalling node modules complete!");
 
     // Copy the breaking changes (for the check later).
-    fs.writeFileSync(path + "./node_modules/lastBreakingChange.txt", latest);
+    fs.writeFileSync(path + "node_modules/lastBreakingChange.txt", latest);
 
     // set installed state.
     installed = true;
@@ -103,13 +103,10 @@ export const breaking = async () => {
       // So to not discourage the dev, we will not ask again.
       // And update the breaking change anyway. (not recommended)
       if (!!save)
-        fs.writeFileSync(
-          path + "./node_modules/lastBreakingChange.txt",
-          latest
-        );
+        fs.writeFileSync(path + "node_modules/lastBreakingChange.txt", latest);
     }
   } catch (e) {
     // Just update the breaking changes.
-    fs.writeFileSync(path + "./node_modules/lastBreakingChange.txt", latest);
+    fs.writeFileSync(path + "node_modules/lastBreakingChange.txt", latest);
   }
 };

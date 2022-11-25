@@ -30,11 +30,11 @@ const breaking = async () => {
             question: "NPM (n) or Yarn (y)? (CTRL + C to stop)",
         });
         (0, log_1.log)("info", "Removing node modules...");
-        fs_1.default.rmSync(path + "./node_modules", { recursive: true });
+        fs_1.default.rmSync(path + "node_modules", { recursive: true });
         (0, log_1.log)("info", "Installing node modules...");
         (0, runCommand_1.runCommand)(!!yarn ? "yarn" : "npm" + " install");
         (0, log_1.log)("info", "Reinstalling node modules complete!");
-        fs_1.default.writeFileSync(path + "./node_modules/lastBreakingChange.txt", latest);
+        fs_1.default.writeFileSync(path + "node_modules/lastBreakingChange.txt", latest);
         installed = true;
     }
     const [start] = await (0, ask_1.ask)({
@@ -51,11 +51,11 @@ const breaking = async () => {
                 question: "Can we start the app and accept it (y) or just start the app, and let you know next time (n)?",
             });
             if (!!save)
-                fs_1.default.writeFileSync(path + "./node_modules/lastBreakingChange.txt", latest);
+                fs_1.default.writeFileSync(path + "node_modules/lastBreakingChange.txt", latest);
         }
     }
     catch (e) {
-        fs_1.default.writeFileSync(path + "./node_modules/lastBreakingChange.txt", latest);
+        fs_1.default.writeFileSync(path + "node_modules/lastBreakingChange.txt", latest);
     }
 };
 exports.breaking = breaking;
