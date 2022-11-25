@@ -28,11 +28,11 @@ const git = __importStar(require("./utils/tools/git"));
 const version = __importStar(require("./utils/tools/version"));
 const node = __importStar(require("./utils/tools/node"));
 const tasks = async () => {
-    version.pull();
-    git.updateHooks();
-    git.checkBranch();
-    node.lock();
-    node.breaking();
+    await version.pull();
+    await git.updateHooks();
+    await git.checkBranch();
+    await node.lock();
+    await node.breaking();
     version.set(version.check());
 };
 exports.tasks = tasks;

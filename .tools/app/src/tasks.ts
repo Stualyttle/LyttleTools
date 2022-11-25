@@ -4,17 +4,17 @@ import * as node from "./utils/tools/node";
 
 export const tasks = async () => {
   // Pull the latest commits.
-  version.pull();
+  await version.pull();
 
   // Update the git hooks.
-  git.updateHooks();
-  git.checkBranch();
+  await git.updateHooks();
+  await git.checkBranch();
 
   // Enforce the node version.
-  node.lock();
+  await node.lock();
 
   // Enforce the breaking changes.
-  node.breaking();
+  await node.breaking();
 
   // Enforce the versioning.
   version.set(version.check());
