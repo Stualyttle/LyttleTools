@@ -12,28 +12,35 @@ const fs_1 = __importDefault(require("fs"));
 const installer = async (config) => {
     try {
         (0, welcome_installer_1.welcome)();
-        const settingQuestions = 3;
-        const [lockNode, lockNodeMsg] = await (0, ask_1.ask)({
+        const settingQuestions = 4;
+        const [appInPackage, appInPackageMsg] = await (0, ask_1.ask)({
             amount: [1, settingQuestions],
+            question: "Can we install the installer script into your current package.json?",
+            info: "You can still core it yourself if you want to do that later!",
+            yes: "We WILL copy parts from our template into your package.json",
+            no: "We will NOT touch your package.json",
+        });
+        const [lockNode, lockNodeMsg] = await (0, ask_1.ask)({
+            amount: [2, settingQuestions],
             question: "Want to lock the node version for this project?",
             warning: "This needs the package.json to be core correctly!",
             yes: "We WILL enable node version locking, and set it to your version!",
             no: "We will NOT enable node version locking.",
         });
         const [breakingNode, breakingNodeMsg] = await (0, ask_1.ask)({
-            amount: [2, settingQuestions],
+            amount: [3, settingQuestions],
             question: "Want to enable breaking changes?",
             info: "This will notify your team when their node_modules should be reinstalled?",
             yes: "We WILL enable breaking changes checks and run in in our tools!",
             no: "We will NOT enable breaking changes checks.",
         });
         const [autoUpdate, autoUpdateMsg] = await (0, ask_1.ask)({
-            amount: [3, settingQuestions],
+            amount: [4, settingQuestions],
             question: "Do you want to auto install updates?",
             yes: "We WILL enable auto updates!",
             no: "We will NOT enable auto updates.",
         });
-        const sureMsg = `${lockNodeMsg}\n${breakingNodeMsg}\n${autoUpdateMsg}`;
+        const sureMsg = `${appInPackageMsg}\n${lockNodeMsg}\n${breakingNodeMsg}\n${autoUpdateMsg}`;
         const [correct] = await (0, ask_1.ask)({
             question: "❓   Is this correct?",
             extra: sureMsg,
@@ -52,18 +59,24 @@ const installer = async (config) => {
         }
         (0, setYamlConfig_1.setYamlConfig)(config.settings, config.app.path);
         console.log("\x1b[32m" + "✔   Config created!" + "\x1b[0m");
-        console.log("\x1b[32m" +
-            '🔧   Backup up package.json to "./tools/config/package.backup.json"' +
-            "\x1b[0m");
-        fs_1.default.copyFileSync("./package.json", "./tools/config/package.backup.json");
-        console.log("\x1b[32m" + "✔   Backup created!" + "\x1b[0m");
-        console.log("\x1b[32m" + "🔧   Changing start command" + "\x1b[0m");
-        const packageRaw = fs_1.default.readFileSync("./package.json", "utf8");
-        const packageJson = JSON.parse(packageRaw);
-        if (!packageJson.scripts.start.includes("npm -s run tools")) {
-            packageJson.scripts.start = `npm -s run tools && ${packageJson.scripts.start}`;
-            packageJson.scripts.tools = 'node ./.tools/app/lyttle_tools/main.js"';
-            fs_1.default.writeFileSync("./package.json", JSON.stringify(packageJson, null, 2));
+        if (appInPackage) {
+            console.log("\x1b[32m" +
+                '🔧   Backup up package.json to ".tools/config/package.backup.json"' +
+                "\x1b[0m");
+            fs_1.default.copyFileSync(config.app.path + "package.json", config.app.path + ".tools/config/package.backup.json");
+            console.log("\x1b[32m" + "✔   Backup created!" + "\x1b[0m");
+            console.log("\x1b[32m" + "🔧   Changing start command" + "\x1b[0m");
+            const packageRaw = fs_1.default.readFileSync(config.app.path + "package.json", "utf8");
+            const packageJson = JSON.parse(packageRaw);
+            if (!packageJson.scripts.start.includes("npm -s run tools")) {
+                packageJson.scripts.start = `npm -s run tools && ${packageJson.scripts.start}`;
+                packageJson.scripts.tools = 'node ./.tools/app/lyttle_tools/main.js"';
+                fs_1.default.writeFileSync("./package.json", JSON.stringify(packageJson, null, 2));
+                console.log("\x1b[32m" + "🔧   package.json has been updated" + "\x1b[0m");
+            }
+            else {
+                console.log("\x1b[32m" + "🔧   Lyttle tools was already installed!" + "\x1b[0m");
+            }
         }
         console.log("\x1b[32m" + "🔧   Completing instalation..." + "\x1b[0m");
         (0, runCommand_1.runCommand)("node ./.tools/app/lyttle_tools/main.js");
