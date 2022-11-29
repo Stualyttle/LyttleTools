@@ -3,6 +3,7 @@ import { setYamlConfig } from "../../config/yaml/setYamlConfig";
 import { welcome } from "./welcome.installer";
 import { ask } from "../../ask";
 import { Config } from "../../config/getConfig";
+import fs from "fs";
 
 export const installer = async (config: Config) => {
   try {
@@ -70,6 +71,22 @@ export const installer = async (config: Config) => {
 
     // Install tools
     console.log("\x1b[32m" + "✔   Config created!" + "\x1b[0m");
+    console.log(
+      "\x1b[32m" +
+        '🔧   Backup up package.json to "./tools/config/package.backup.json"' +
+        "\x1b[0m"
+    );
+    fs.copyFileSync("./package.json", "./tools/config/package.backup.json");
+    console.log("\x1b[32m" + "✔   Backup created!" + "\x1b[0m");
+    console.log("\x1b[32m" + "🔧   Changing start command" + "\x1b[0m");
+    const packageRaw = fs.readFileSync("./package.json", "utf8");
+    const packageJson = JSON.parse(packageRaw);
+    if (!packageJson.scripts.start.includes("npm -s run tools")) {
+      packageJson.scripts.start = `npm -s run tools && ${packageJson.scripts.start}`;
+      packageJson.scripts.tools = 'node ./.tools/app/lyttle_tools/main.js"';
+      fs.writeFileSync("./package.json", JSON.stringify(packageJson, null, 2));
+    }
+
     console.log("\x1b[32m" + "🔧   Completing instalation..." + "\x1b[0m");
     runCommand("node ./.tools/app/lyttle_tools/main.js");
     console.log(
