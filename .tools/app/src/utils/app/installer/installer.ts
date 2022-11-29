@@ -4,6 +4,7 @@ import { welcome } from "./welcome.installer";
 import { ask } from "../../ask";
 import { Config } from "../../config/getConfig";
 import fs from "fs";
+import { getInput } from "../../getInput";
 
 export const installer = async (config: Config) => {
   try {
@@ -72,24 +73,32 @@ export const installer = async (config: Config) => {
     // Install tools
     console.log("\x1b[32m" + "✔   Config created!" + "\x1b[0m");
     if (appInPackage) {
+      const time = new Date().getTime();
       console.log(
         "\x1b[32m" +
-          '🔧   Backup up package.json to ".tools/config/package.backup.json"' +
+          `🔧   Backup up package.json to ".tools/backups/${time}.package.json"` +
           "\x1b[0m"
       );
       fs.copyFileSync(
         config.app.path + "package.json",
-        config.app.path + ".tools/config/package.backup.json"
+        config.app.path + `.tools/backups/${time}.package.json`
       );
-      console.log("\x1b[32m" + "✔   Backup created!" + "\x1b[0m");
       console.log("\x1b[32m" + "🔧   Changing start command" + "\x1b[0m");
       const packageRaw = fs.readFileSync(
         config.app.path + "package.json",
         "utf8"
       );
       const packageJson = JSON.parse(packageRaw);
-      if (!packageJson.scripts.start.includes("npm -s run tools")) {
-        packageJson.scripts.start = `npm -s run tools && ${packageJson.scripts.start}`;
+
+      const startCommand = await getInput(
+        "What is your (development) start command:"
+      );
+      const startCmd = packageJson.scripts[startCommand];
+      if (
+        !startCmd.includes("npm -s run tools") ||
+        !!packageJson.scripts.tools
+      ) {
+        packageJson.scripts[startCommand] = `npm -s run tools && ${startCmd}`;
         packageJson.scripts.tools = 'node ./.tools/app/lyttle_tools/main.js"';
         fs.writeFileSync(
           "./package.json",
@@ -105,7 +114,7 @@ export const installer = async (config: Config) => {
       }
     }
 
-    console.log("\x1b[32m" + "🔧   Completing instalation..." + "\x1b[0m");
+    console.log("\x1b[32m" + "🔧   Completing installation..." + "\x1b[0m");
     runCommand("node ./.tools/app/lyttle_tools/main.js");
     console.log(
       "\x1b[32m" +

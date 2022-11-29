@@ -9,6 +9,7 @@ const setYamlConfig_1 = require("../../config/yaml/setYamlConfig");
 const welcome_installer_1 = require("./welcome.installer");
 const ask_1 = require("../../ask");
 const fs_1 = __importDefault(require("fs"));
+const getInput_1 = require("../../getInput");
 const installer = async (config) => {
     try {
         (0, welcome_installer_1.welcome)();
@@ -60,16 +61,19 @@ const installer = async (config) => {
         (0, setYamlConfig_1.setYamlConfig)(config.settings, config.app.path);
         console.log("\x1b[32m" + "✔   Config created!" + "\x1b[0m");
         if (appInPackage) {
+            const time = new Date().getTime();
             console.log("\x1b[32m" +
-                '🔧   Backup up package.json to ".tools/config/package.backup.json"' +
+                `🔧   Backup up package.json to ".tools/backups/${time}.package.json"` +
                 "\x1b[0m");
-            fs_1.default.copyFileSync(config.app.path + "package.json", config.app.path + ".tools/config/package.backup.json");
-            console.log("\x1b[32m" + "✔   Backup created!" + "\x1b[0m");
+            fs_1.default.copyFileSync(config.app.path + "package.json", config.app.path + `.tools/backups/${time}.package.json`);
             console.log("\x1b[32m" + "🔧   Changing start command" + "\x1b[0m");
             const packageRaw = fs_1.default.readFileSync(config.app.path + "package.json", "utf8");
             const packageJson = JSON.parse(packageRaw);
-            if (!packageJson.scripts.start.includes("npm -s run tools")) {
-                packageJson.scripts.start = `npm -s run tools && ${packageJson.scripts.start}`;
+            const startCommand = await (0, getInput_1.getInput)("What is your (development) start command:");
+            const startCmd = packageJson.scripts[startCommand];
+            if (!startCmd.includes("npm -s run tools") ||
+                !!packageJson.scripts.tools) {
+                packageJson.scripts[startCommand] = `npm -s run tools && ${startCmd}`;
                 packageJson.scripts.tools = 'node ./.tools/app/lyttle_tools/main.js"';
                 fs_1.default.writeFileSync("./package.json", JSON.stringify(packageJson, null, 2));
                 console.log("\x1b[32m" + "🔧   package.json has been updated" + "\x1b[0m");
@@ -78,7 +82,7 @@ const installer = async (config) => {
                 console.log("\x1b[32m" + "🔧   Lyttle tools was already installed!" + "\x1b[0m");
             }
         }
-        console.log("\x1b[32m" + "🔧   Completing instalation..." + "\x1b[0m");
+        console.log("\x1b[32m" + "🔧   Completing installation..." + "\x1b[0m");
         (0, runCommand_1.runCommand)("node ./.tools/app/lyttle_tools/main.js");
         console.log("\x1b[32m" +
             "✔   Lyttle Tools has successfully been installed!" +
