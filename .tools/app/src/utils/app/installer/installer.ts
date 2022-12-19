@@ -99,7 +99,7 @@ export const installer = async (config: Config) => {
         !!packageJson.scripts.tools
       ) {
         packageJson.scripts[startCommand] = `npm -s run tools && ${startCmd}`;
-        packageJson.scripts.tools = 'node ./.tools/app/lyttle_tools/main.js"';
+        packageJson.scripts.tools = "node ./.tools/app/lyttle_tools/main.js";
         fs.writeFileSync(
           "./package.json",
           JSON.stringify(packageJson, null, 2)

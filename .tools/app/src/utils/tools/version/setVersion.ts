@@ -63,8 +63,10 @@ const resetVersion = (
 ) => {
   const newVersion = `${year}.${week}.${day}.1: `;
   updateVersion(lastVersion, newVersion);
-  log("error", "Your version was incorrect, copy it again from version.txt");
-  process.exit(1);
+  if (config.app.isGitHook) {
+    log("error", "Your version was incorrect, copy it again from version.txt");
+    process.exit(1);
+  }
 };
 
 export const set = (versions: Versions | null = null) => {

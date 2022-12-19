@@ -74,7 +74,7 @@ const installer = async (config) => {
             if (!startCmd.includes("npm -s run tools") ||
                 !!packageJson.scripts.tools) {
                 packageJson.scripts[startCommand] = `npm -s run tools && ${startCmd}`;
-                packageJson.scripts.tools = 'node ./.tools/app/lyttle_tools/main.js"';
+                packageJson.scripts.tools = "node ./.tools/app/lyttle_tools/main.js";
                 fs_1.default.writeFileSync("./package.json", JSON.stringify(packageJson, null, 2));
                 console.log("\x1b[32m" + "🔧   package.json has been updated" + "\x1b[0m");
             }
