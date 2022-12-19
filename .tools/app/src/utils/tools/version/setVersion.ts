@@ -93,6 +93,7 @@ export const set = (versions: Versions | null = null) => {
     if (year !== myMajor || week !== myMinor || day !== myPatch) {
       // Setup version
       resetVersion(versions[0], { year, week, day });
+      if (!config.app.isGitHook) return true;
     }
 
     // Update version

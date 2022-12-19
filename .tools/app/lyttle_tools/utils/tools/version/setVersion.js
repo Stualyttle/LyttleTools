@@ -54,6 +54,8 @@ const set = (versions = null) => {
             myVersion[3] === myRevision);
         if (year !== myMajor || week !== myMinor || day !== myPatch) {
             resetVersion(versions[0], { year, week, day });
+            if (!main_1.config.app.isGitHook)
+                return true;
         }
         const newVersion = `${myMajor}.${myMinor}.${myPatch}.${myRevision}: `;
         if (versionChanged)
