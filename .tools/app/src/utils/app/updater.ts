@@ -8,8 +8,10 @@ export const update = () => {
   // @ts-ignore
   if (!config.settings?.tools?.autoUpdate) return;
 
+  const cacheRemover = new Date().getTime();
+
   const rawCloudVersion = runCommand(
-    "curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/main/.tools/app/version.ignore"
+    `curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/main/.tools/app/version.ignore?time=${cacheRemover}`
   );
 
   const cloudVersion = rawCloudVersion
@@ -37,10 +39,12 @@ export const update = () => {
       } platform`
     );
     if (config.app.runningOnWindows)
-      runCommand("curl -sSL https://install-git.lyttle.it/bat | cmd.exe > nul");
+      runCommand(
+        `curl -sSL https://install-git.lyttle.it/bat?time=${cacheRemover} | cmd.exe > nul`
+      );
     else
       runCommand(
-        "curl -sSL https://install-git.lyttle.it/sh | bash > /dev/null"
+        `curl -sSL https://install-git.lyttle.it/sh?time=${cacheRemover} | bash > /dev/null`
       );
 
     if (!config.app.isGitHook) {

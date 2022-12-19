@@ -12,7 +12,8 @@ const fs_1 = __importDefault(require("fs"));
 const update = () => {
     if (!main_1.config.settings?.tools?.autoUpdate)
         return;
-    const rawCloudVersion = (0, runCommand_1.runCommand)("curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/main/.tools/app/version.ignore");
+    const cacheRemover = new Date().getTime();
+    const rawCloudVersion = (0, runCommand_1.runCommand)(`curl -L https://raw.githubusercontent.com/Stualyttle/LyttleTools/main/.tools/app/version.ignore?time=${cacheRemover}`);
     const cloudVersion = rawCloudVersion
         .toString()
         .split(".")
@@ -30,9 +31,9 @@ const update = () => {
         };
         (0, log_1.log)("info", `Updating tools from ${appVersion.join(".")} to ${cloudVersion.join(".")}, using script for the ${main_1.config.app.runningOnWindows ? "Windows" : "MacOS/Linux"} platform`);
         if (main_1.config.app.runningOnWindows)
-            (0, runCommand_1.runCommand)("curl -sSL https://install-git.lyttle.it/bat | cmd.exe > nul");
+            (0, runCommand_1.runCommand)(`curl -sSL https://install-git.lyttle.it/bat?time=${cacheRemover} | cmd.exe > nul`);
         else
-            (0, runCommand_1.runCommand)("curl -sSL https://install-git.lyttle.it/sh | bash > /dev/null");
+            (0, runCommand_1.runCommand)(`curl -sSL https://install-git.lyttle.it/sh?time=${cacheRemover} | bash > /dev/null`);
         if (!main_1.config.app.isGitHook) {
             fs_1.default.cpSync(main_1.config.app.path + ".tools/app/assets/git-hooks", main_1.config.app.path + ".git/hooks", {
                 recursive: true,
